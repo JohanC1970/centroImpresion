@@ -1,0 +1,8 @@
+package centroImpresion.exceptions;
+
+public class DocumentoException extends Exception{
+
+	public DocumentoException(String mensaje){
+		super(mensaje);
+	}
+}

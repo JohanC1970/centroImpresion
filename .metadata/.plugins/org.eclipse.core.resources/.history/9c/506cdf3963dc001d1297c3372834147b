@@ -1,0 +1,108 @@
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+
+public class VentanaPrincipalController{
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private Button btnImprimir;
+
+    @FXML
+    private Button btnEliminarDocumento;
+
+    @FXML
+    private TableView<?> tableDocumentos;
+
+    @FXML
+    private Button btnCargarDocumento;
+
+    @FXML
+    private TableColumn<?, ?> columnaMarca;
+
+    @FXML
+    private Tab tabDocumentos;
+
+    @FXML
+    private Button btnAgregarDocumento;
+
+    @FXML
+    private TableColumn<?, ?> columnaPrioridad;
+
+    @FXML
+    private TableColumn<?, ?> columnaTitulo;
+
+    @FXML
+    private TextField txtNombre;
+
+    @FXML
+    private SplitMenuButton btnEstado;
+
+    @FXML
+    private ComboBox<?> comBoxPrioridad;
+
+    @FXML
+    private Button btnEliminar;
+
+    @FXML
+    private TextField txtEstadoImprimir;
+
+    @FXML
+    private TableColumn<?, ?> columnaEstado;
+
+    @FXML
+    private Tab tabImpresora;
+
+    @FXML
+    private TableView<?> tableImpresoras;
+
+    @FXML
+    private TableColumn<?, ?> columnaNombre;
+
+    @FXML
+    private TextField txtMarca;
+
+    @FXML
+    private TextField txtTitulo;
+
+    @FXML
+    private Button btnAgregarImpresora;
+
+    @FXML
+    void initialize() {
+        assert btnImprimir != null : "fx:id=\"btnImprimir\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert btnEliminarDocumento != null : "fx:id=\"btnEliminarDocumento\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert tableDocumentos != null : "fx:id=\"tableDocumentos\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert btnCargarDocumento != null : "fx:id=\"btnCargarDocumento\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert columnaMarca != null : "fx:id=\"columnaMarca\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert tabDocumentos != null : "fx:id=\"tabDocumentos\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert btnAgregarDocumento != null : "fx:id=\"btnAgregarDocumento\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert columnaPrioridad != null : "fx:id=\"columnaPrioridad\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert columnaTitulo != null : "fx:id=\"columnaTitulo\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert txtNombre != null : "fx:id=\"txtNombre\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert btnEstado != null : "fx:id=\"btnEstado\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert comBoxPrioridad != null : "fx:id=\"comBoxPrioridad\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert btnEliminar != null : "fx:id=\"btnEliminar\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert txtEstadoImprimir != null : "fx:id=\"txtEstadoImprimir\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert columnaEstado != null : "fx:id=\"columnaEstado\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert tabImpresora != null : "fx:id=\"tabImpresora\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert tableImpresoras != null : "fx:id=\"tableImpresoras\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert columnaNombre != null : "fx:id=\"columnaNombre\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert txtMarca != null : "fx:id=\"txtMarca\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert txtTitulo != null : "fx:id=\"txtTitulo\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+        assert btnAgregarImpresora != null : "fx:id=\"btnAgregarImpresora\" was not injected: check your FXML file 'VentanaPrincipalView.fxml.fxml'.";
+
+    }
+}

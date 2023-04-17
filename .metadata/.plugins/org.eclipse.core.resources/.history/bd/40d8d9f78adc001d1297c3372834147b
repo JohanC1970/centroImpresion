@@ -1,0 +1,102 @@
+package centroImpresion.model;
+
+public class Documento implements Comparable<Documento> {
+
+	private String texto;
+	private String titulo;
+	private Integer prioridad;
+
+	public Documento(String texto, String titulo, Integer prioridad) {
+		super();
+		this.texto = texto;
+		this.titulo = titulo;
+		this.prioridad = prioridad;
+	}
+
+
+	public String getTexto() {
+		return texto;
+	}
+
+
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
+
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+
+	public Integer getPrioridad() {
+		return prioridad;
+	}
+
+
+	public void setPrioridad(Integer prioridad) {
+		this.prioridad = prioridad;
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((prioridad == null) ? 0 : prioridad.hashCode());
+		result = prime * result + ((texto == null) ? 0 : texto.hashCode());
+		result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Documento other = (Documento) obj;
+		if (prioridad == null) {
+			if (other.prioridad != null)
+				return false;
+		} else if (!prioridad.equals(other.prioridad))
+			return false;
+		if (texto == null) {
+			if (other.texto != null)
+				return false;
+		} else if (!texto.equals(other.texto))
+			return false;
+		if (titulo == null) {
+			if (other.titulo != null)
+				return false;
+		} else if (!titulo.equals(other.titulo))
+			return false;
+		return true;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Documento [texto=" + texto + ", titulo=" + titulo + ", prioridad=" + prioridad + "]";
+	}
+
+	/**
+	 * Este metodo es de ordenamiento de mayor a menor
+	 */
+	@Override
+	public int compareTo(Documento documento) {
+		return documento.prioridad - this.prioridad;
+	}
+
+	public boolean verificarExistenciaDocumento(String tit){
+		return this.getTitulo().equals(tit);
+	}
+}

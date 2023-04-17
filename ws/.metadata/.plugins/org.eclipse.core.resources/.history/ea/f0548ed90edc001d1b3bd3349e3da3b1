@@ -1,0 +1,5 @@
+package centroImpresion.exception;
+
+public class ImpresoraException {
+
+}

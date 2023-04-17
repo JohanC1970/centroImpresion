@@ -1,0 +1,291 @@
+package centroImpresion.model;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import centroImpresion.exception.DocumentoException;
+import centroImpresion.exception.ImpresoraException;
+
+public class CentroImpresion {
+
+	private String codigo;
+	private List<Documento>listaDocumentos = new ArrayList<Documento>();
+	private List<Impresora>listaImpresoras = new ArrayList<Impresora>();
+
+	Impresora impresora1 = new Impresora("Impresora1", "Samnsung");
+	public CentroImpresion(String codigo) {
+		super();
+		this.codigo = codigo;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public List<Documento> getListaDocumentos() {
+		return listaDocumentos;
+	}
+
+	public void setListaDocumentos(List<Documento> listaDocumentos) {
+		this.listaDocumentos = listaDocumentos;
+	}
+
+	public List<Impresora> getListaImpresoras() {
+		return listaImpresoras;
+	}
+
+	public void setListaImpresoras(List<Impresora> listaImpresoras) {
+		this.listaImpresoras = listaImpresoras;
+	}
+
+	@Override
+	public String toString() {
+		return "CentroImpresion [codigo=" + codigo + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CentroImpresion other = (CentroImpresion) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
+	}
+
+
+	//-----------------------------------Impresora-------------------------------------------
+
+	/**
+	 *Este metodo crea una impresora, si existe una impresora con el mismo nombre y marca manda
+	 *una exception propia
+	 * @param nombre
+	 * @param marca
+	 * @param estado
+	 * @throws ImpresoraException
+	 */
+	public void crearImpresora(String nombre, String marca) throws ImpresoraException{
+		boolean impresoraEncontrada = verificarExistenciaImpresora(nombre,marca);
+		if(impresoraEncontrada == false){
+			Impresora impresora = new Impresora(nombre,marca);
+			listaImpresoras.add(impresora);
+		}
+		throw new ImpresoraException("La impresora ya existe");
+	}
+
+	/**
+	 * Este metodo verifica si una impresora ya existe.
+	 * @param nombre
+	 * @param marca
+	 * @return
+	 */
+	private boolean verificarExistenciaImpresora(String nombre, String marca) {
+
+		for (Impresora impresora : listaImpresoras) {
+			if(impresora.verificarImpresora(nombre, marca)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Este metodo me obtiene una impresora, en caso de que no la obtenga retorna un null
+	 * @param nombre
+	 * @param marca
+	 * @return
+	 */
+	private Impresora obtenerImpresora(String nombre, String marca){
+		for (Impresora impresora : listaImpresoras) {
+			if(impresora.verificarImpresora(nombre, marca)){
+				return impresora;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Este metodo actualiza los datos de una impresora
+	 * @param nombre
+	 * @param marca
+	 * @param estado
+	 * @return
+	 * @throws ImpresoraException
+	 */
+	public String actualizarImpresora(String nombre, String marca) throws ImpresoraException{
+		Impresora impresoraEncontrada = obtenerImpresora(nombre, marca);
+		if(impresoraEncontrada == null){
+			throw new ImpresoraException("La impresora no existe");
+		}
+		//Se elimina de la lista la impresora, ya que si se actualiza se pueden actualizar los datos
+		//con una impresora ya existente
+		listaImpresoras.remove(impresoraEncontrada);
+
+		//Se crea una nueva impresora y se verifica si los datos coinciden con una impresora ya existente
+		crearImpresora(nombre,marca);
+		return "La impresora se actualizo correctamente";
+	}
+
+	/**
+	 * Este metodo elimina una impresora
+	 * @param nombre
+	 * @param marca
+	 * @throws ImpresoraException
+	 */
+	public void eliminarImpresora(String nombre,String marca) throws ImpresoraException{
+		Impresora impresoraEncontrada = obtenerImpresora(nombre,marca);
+		if(impresoraEncontrada == null){
+			throw new ImpresoraException("La impresora no existe");
+		}
+		listaImpresoras.remove(impresoraEncontrada);
+	}
+
+	/**
+	 * Este metodo conecta una impresora
+	 * @param impresora
+	 * @return
+	 */
+	public String conectarImpresora(Impresora impresora){
+		impresora.setEstado("Conectada");
+		return "Conectada";
+	}
+
+
+	//----------------------------Documento------------------------------------------------
+
+	/**
+	 * Este metodo imprime documentos, si la impresora no esta conectada se manda una exception propia
+	 * @param impresora
+	 * @param documento
+	 * @return
+	 * @throws ImpresoraException
+	 */
+	public String imprimirDocumento(Impresora impresora,Documento documento) throws ImpresoraException{
+		if(impresora.getEstado().equals("Conectada")){
+			listaDocumentos.remove(documento);
+			return "Impreso";
+		}
+		throw new ImpresoraException("La impresora no esta conectada");
+	}
+
+	/**
+	 * Este metodo me permite obtener el texto de un txt y ponerlo en un string
+	 * @param direccion
+	 * @return
+	 * @throws DocumentoException
+	 */
+	public String extraerMensajeTxt(String direccion) throws DocumentoException{
+		String mensaje = "";
+		try {
+			//Se crea un objeto para poder reconocer el archivo txt, recibe la direccion del archivo
+			BufferedReader txt = new BufferedReader(new FileReader(direccion));
+			//Esta variable me sirve para ir guardando todas las lineas de texto
+			String aux = "";
+			//Esta variable es necesaria para ir encapsulado las lineas del txt
+			String aux2;
+			//Este ciclo funciona siempre y cuando txt tenga datos
+			while((aux2 = txt.readLine()) != null){
+				aux+= aux2 + "\n"; //Va guardando cada dato del txt
+			}
+			mensaje = aux;
+
+		} catch (Exception e) {
+			throw new DocumentoException("No se pudo cargar el documento");
+		}
+
+		return mensaje;
+	}
+
+	/**
+	 * Este metodo me permite cargar archivos txt, lanza una venta en donde se puede seleccionar
+	 * el archivo
+	 * @return
+	 */
+	public String seleccionarArchivosTxt() {
+		 //Se crea una instancia de la clase que permite mostrar el explorador de archivos
+		 JFileChooser fileChooser = new JFileChooser();
+		 //Se agrega el nombre de la ventana que se va a mostrar
+	     fileChooser.setDialogTitle("Administrador de archivos");
+	     //Esta linea de codigo me permite mostrar solo los archivos txt
+	     fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de texto", "txt"));
+	     //Esto nos permite saber si se escogio un archivo o cerro la ventana sin escoger nada
+	     int userSelection = fileChooser.showOpenDialog(null);
+	     //Si se escogio un archivo se le obtiene la ruta de este
+	     if (userSelection == JFileChooser.APPROVE_OPTION) {
+	    	 String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+	         return filePath;
+	       }
+	     //En caso de que no se escogiera un archivo se retorna un null
+	     return null;
+	    }
+
+	/**
+	 * Este metodo es para crear documentos, solo es necesario mandarle el titulo y la prioridad,
+	 * ya que el texto se extrae del txt.
+	 * @param titulo
+	 * @param prioridad
+	 * @throws Exception
+	 */
+	public void crearDocumento(String titulo, Integer prioridad) throws Exception{
+		boolean documentoExistente = verificarExistenciaDocumento(titulo);
+		if(documentoExistente == false){
+			String archivoTxt = seleccionarArchivosTxt();
+			String texto = extraerMensajeTxt(archivoTxt);
+			Documento documentoNuevo = new Documento(texto,titulo,prioridad);
+			agregarDocumentos(documentoNuevo);
+		}
+
+		else{
+			throw new Exception("El documento ya existe");
+		}
+	}
+
+	/**
+	 * Este metodo agrega nuevos documentos a la lista y la actualizamos en forma descendente
+	 * @param documentoNuevo
+	 */
+	private void agregarDocumentos(Documento documentoNuevo) {
+		listaDocumentos.add(documentoNuevo);
+		Collections.sort(listaDocumentos);
+	}
+
+	/**
+	 * Esta funcion verifica la existencia de un documento
+	 * @param titulo
+	 * @return
+	 */
+	private boolean verificarExistenciaDocumento(String titulo) {
+		for (Documento documento : listaDocumentos) {
+			if(documento.getTitulo().equals(titulo)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="809.0" prefWidth="1010.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="centroImpresion.controller.CentroImpresionController">
+   <children>
+      <AnchorPane layoutX="498.0" prefHeight="809.0" prefWidth="512.0" style="-fx-background-color: #808080;">
+         <children>
+            <Label layoutX="33.0" layoutY="208.0" prefHeight="111.0" prefWidth="446.0" text="Centro de impresión UQ" textFill="WHITE">
+               <font>
+                  <Font name="Schadow BT Bold" size="36.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnContinuar" layoutX="145.0" layoutY="546.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="222.0" text="Continuar">
+               <font>
+                  <Font name="Schadow BT Bold" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="-7.0" layoutY="4.0" prefHeight="802.0" prefWidth="505.0" style="-fx-background-color: #FFFFFF;" />
+   </children>
+</AnchorPane>

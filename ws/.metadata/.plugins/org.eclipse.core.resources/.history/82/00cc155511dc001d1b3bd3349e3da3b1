@@ -1,0 +1,19 @@
+package centroImpresion.aplicacion;
+
+import centroImpresion.model.CentroImpresion;
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+public class Aplicacion extends Application{
+
+	private Stage primaryStage;
+	private CentroImpresion centroImpresion;
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage = primaryStage;
+		this.centroImpresion = new CentroImpresion("3023");
+
+	}
+
+}

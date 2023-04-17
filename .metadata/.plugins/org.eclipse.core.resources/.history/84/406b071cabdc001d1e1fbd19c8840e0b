@@ -1,0 +1,351 @@
+package centroImpresion.controller;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import centroImpresion.aplicacion.Aplicacion;
+import centroImpresion.exception.DocumentoException;
+import centroImpresion.exception.ImpresoraException;
+import centroImpresion.model.CentroImpresion;
+import centroImpresion.model.Documento;
+import centroImpresion.model.Impresora;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+public class CentroImpresionController implements Initializable{
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private Button btnImprimir;
+
+    @FXML
+    private Button btnEliminarDocumento;
+
+    @FXML
+    private TableView<Documento> tableDocumentos;
+
+    @FXML
+    private Button btnCargarDocumento;
+
+    @FXML
+    private TableColumn<Impresora, String> columnaMarca;
+
+    @FXML
+    private Tab tabDocumentos;
+
+    @FXML
+    private Button btnAgregarDocumento;
+
+    @FXML
+    private TableColumn<Documento, Integer> columnaPrioridad;
+
+    @FXML
+    private TableColumn<Documento, String> columnaTitulo;
+
+    @FXML
+    private TextField txtNombre;
+
+    @FXML
+    private SplitMenuButton btnEstado;
+
+    @FXML
+    private ComboBox<Integer> comBoxPrioridad;
+
+    @FXML
+    private Button btnEliminar;
+
+    @FXML
+    private TextField txtEstadoImprimir;
+
+    @FXML
+    private TableColumn<Documento, String> columnaEstado;
+
+    @FXML
+    private Tab tabImpresora;
+
+    @FXML
+    private TableView<Impresora> tableImpresoras;
+
+    @FXML
+    private TableColumn<Impresora, String> columnaNombre;
+
+    @FXML
+    private TextField txtMarca;
+
+    @FXML
+    private TextField txtTitulo;
+
+    @FXML
+    private TextField txtDireccion;
+
+    @FXML
+    private Button btnAgregarImpresora;
+
+    private Button btnNuevaImpresora;
+
+	private Aplicacion aplicacion;
+
+	private CentroImpresion centroImpresion;
+
+	private Impresora impresoraSeleccionada;
+
+	private Documento documentoSeleccionado;
+
+	private int posicionImpresoraSeleccion;
+	private int posicionDocumentoSeleccion;
+
+	private Integer[] prioridad = {0,1,2,3};
+
+	ObservableList<Documento> listadoDocumentos = FXCollections.observableArrayList();
+	ObservableList<Impresora> listadoImpresoras = FXCollections.observableArrayList();
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		this.columnaEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+		this.columnaMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
+		this.columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+		this.columnaPrioridad.setCellValueFactory(new PropertyValueFactory<>("prioridad"));
+		this.columnaTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
+		comBoxPrioridad.getItems().addAll(prioridad);
+
+		//Me da la informacion de seleccion de la tabla
+		tableImpresoras.getSelectionModel().selectedItemProperty().addListener((obs,oldselection,newSelection) ->{
+			if(newSelection != null){
+				impresoraSeleccionada = newSelection;
+			}
+		});
+
+		tableDocumentos.getSelectionModel().selectedItemProperty().addListener((obs,oldselection,newSelection) ->{
+			if(newSelection != null){
+				documentoSeleccionado = newSelection;
+			}
+		});
+
+	}
+
+	public void setAplicacion(Aplicacion aplicacion) {
+		this.aplicacion=aplicacion;
+		this.centroImpresion = aplicacion.getCentroImpresion();
+
+		tableImpresoras.getItems().clear();
+		tableDocumentos.getItems().clear();
+
+		tableImpresoras.setItems(getImpresoras());
+		tableDocumentos.setItems(getDocumentos());
+	}
+	private ObservableList<Documento> getDocumentos() {
+		listadoDocumentos.addAll(centroImpresion.getListaDocumentos());
+		return listadoDocumentos;
+	}
+
+	private ObservableList<Impresora> getImpresoras() {
+		listadoImpresoras.addAll(centroImpresion.getListaImpresoras());
+		return listadoImpresoras;
+	}
+
+	 /**
+	* Este metodo muestra un mensaje al usuario
+	* @param titulo
+	* @param header
+	* @param contenido
+	* @param alertType
+	*/
+	private void mostrarMensaje(String titulo, String header, String contenido, AlertType alertType){
+		Alert alert = new Alert(alertType);
+		alert.setTitle(titulo);
+		alert.setHeaderText(header);
+		alert.setContentText(contenido);
+		alert.showAndWait();
+	}
+
+
+    //-----------------------------Impresora----------------------------------
+    @FXML
+    void cambiarEstado(ActionEvent event) {
+
+    }
+
+    @FXML
+    void conectarImpresora(ActionEvent event){
+    	if(impresoraSeleccionada!=null){
+    		aplicacion.activarImpresora(impresoraSeleccionada);
+    		posicionImpresoraSeleccion = darPosicion(impresoraSeleccionada);
+    		listadoImpresoras.set(posicionImpresoraSeleccion,impresoraSeleccionada);
+    		mostrarMensaje("Informacion impresora", "Proceso exitoso", "La impresora fue conectada exitosamente", AlertType.CONFIRMATION);
+    	}else{
+    		mostrarMensaje("Informacion impresora", "Error", "Se debe escoger una impresora para conectarla", AlertType.ERROR);
+    	}
+    }
+
+    @FXML
+    void desconectarImpresora(ActionEvent event){
+
+    	if(impresoraSeleccionada!=null){
+    		aplicacion.desconectarImpresora(impresoraSeleccionada);
+    		posicionImpresoraSeleccion = darPosicion(impresoraSeleccionada);
+    		listadoImpresoras.set(posicionImpresoraSeleccion, impresoraSeleccionada);
+    		mostrarMensaje("Informacion impresora", "Proceso exitoso", "La impresora fue desconectada exitosamente", AlertType.CONFIRMATION);
+    	}else{
+    		mostrarMensaje("Informacion impresora", "Error", "Se debe escoger una impresora para conectarla", AlertType.ERROR);
+    	}
+    }
+
+	@FXML
+    void agregarImpresoras(ActionEvent event) throws ImpresoraException {
+    	/**
+    	 * Se capturan los datos ingresados en el txt
+    	 */
+    	String nombre = txtNombre.getText();
+    	String marca = txtMarca.getText();
+
+    	if(datosValidosImpresora(nombre,marca)){
+    		crearImpresora(nombre,marca);
+    	}
+	}
+     @FXML
+     void eliminarImpresora(ActionEvent event) throws ImpresoraException {
+    	 if(impresoraSeleccionada!=null){
+    		 aplicacion.eliminarImpresora(impresoraSeleccionada);
+    		 listadoImpresoras.remove(impresoraSeleccionada);
+    		 mostrarMensaje("Informacion impresora","Proceso realizado correctamente", "Se elimino la impresora correctamente", AlertType.CONFIRMATION);
+    	 }else{
+    		 mostrarMensaje("Informacion impresora", "Error", "Necesita seleccionar una impresora para poder eliminar", AlertType.ERROR);
+    	 }
+       }
+     @FXML
+     void crearNuevaImpresora(ActionEvent event){
+     	txtNombre.setText("");
+     	txtMarca.setText("");
+     }
+
+     @FXML
+     void imprimirDocumentos(ActionEvent event) throws ImpresoraException {
+    	 if(impresoraSeleccionada != null){
+    		 if(listadoDocumentos.size()>=0){
+    			 Documento documento = listadoDocumentos.get(0);
+        		 if(datosValidosImprimir(impresoraSeleccionada,documento)){
+        			 txtEstadoImprimir.setText("Impreso");
+        			 listadoDocumentos.remove(documento);
+        		 }
+    		 }else{
+    			 mostrarMensaje("Informacion impresora", "Error", "No hay documentos disponibles para imprimir", AlertType.ERROR);
+    		 }
+    	 }else{
+    		 mostrarMensaje("Informacion impresora", "Error", "Seleccione una impresora", AlertType.ERROR);
+    	 }
+     }
+
+     /**
+      * Verifica que se pueda imprimir los documentos
+      * @param impresoraSeleccionada
+      * @param documento
+      * @return
+      * @throws ImpresoraException
+      */
+	 private boolean datosValidosImprimir(Impresora impresoraSeleccionada, Documento documento) throws ImpresoraException {
+
+		 if(aplicacion.imprimirDocumento(impresoraSeleccionada,documento).equals("Impreso")){
+			 return true;
+		 }
+		 mostrarMensaje("Informacion impresora", "Error", "La impresora no esta conectada", AlertType.ERROR);
+		 return false;
+	}
+
+	/**
+     * Verifica si los datos que ingresaron para crear la impresora estan completos
+     * o son validos
+     * @param nombre
+     * @param marca
+     * @return
+     */
+	private boolean datosValidosImpresora(String nombre, String marca) {
+		String notificacion = "";
+		if(nombre == null || nombre.equals("")){
+			notificacion+= "Los datos ingresados en nombre son invalidos\n";
+		}
+		if(marca == null || marca.equals("")){
+			notificacion += "Los datos ingresados en marca son invalidos\n";
+		}
+    	if(notificacion.equals("")){
+    		return true;
+    	}
+    	mostrarMensaje("Notificacion Impresora", "Informacion invalida", notificacion , AlertType.ERROR);
+    	return false;
+	}
+
+	/**
+	 * Este metodo crea impresoras
+	 * @param nombre
+	 * @param marca
+	 * @throws ImpresoraException
+	 */
+	private void crearImpresora(String nombre, String marca) throws ImpresoraException {
+		//Notificar que fue creada la impresora
+		Impresora impresora = aplicacion.crearImpresora(nombre, marca);
+		if(impresora != null){
+			listadoImpresoras.add(impresora);
+			mostrarMensaje("Notificacion Impresora", "Impresora registrada", "La impresora fue creaada exitosamente", AlertType.CONFIRMATION);
+		}
+	}
+	/**
+	 * Este metodo me da la posicion de una impresora
+	 * @param impresoraSeleccionada2
+	 * @return
+	 */
+	private int darPosicion(Impresora impresoraSeleccionada2) {
+		int pos=-1;
+		for(int i=0; i<listadoImpresoras.size(); i++){
+			if(listadoImpresoras.get(i) == impresoraSeleccionada2){
+				return i;
+			}
+		}
+		return pos;
+	}
+    //-----------------------------Documento----------------------------------
+
+	@FXML
+    void cargarDocumentos(ActionEvent event) {
+
+    }
+
+	//error
+	@FXML
+    void agregarDocumentos(ActionEvent event){
+
+    }
+
+	@FXML
+    void eliminarDocumentos(ActionEvent event) {
+		if(documentoSeleccionado != null){
+			aplicacion.eliminarDocumento(documentoSeleccionado);
+			listadoDocumentos.remove(documentoSeleccionado);
+			mostrarMensaje("Informacion documento", "Proceso exitoso", "Se elimino correctamente el documento", AlertType.CONFIRMATION);
+		}else{
+			mostrarMensaje("Informacion documento", "Error", "Seleccione por favor un documento", AlertType.ERROR);
+		}
+    }
+
+}
+
+
+

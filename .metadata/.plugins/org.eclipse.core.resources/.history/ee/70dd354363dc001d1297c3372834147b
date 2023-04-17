@@ -1,0 +1,83 @@
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+
+public class VentanaPrincipalController{
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private Button btnImprimir;
+
+    @FXML
+    private Button btnEliminarDocumento;
+
+    @FXML
+    private TableView<?> tableDocumentos;
+
+    @FXML
+    private Button btnCargarDocumento;
+
+    @FXML
+    private TableColumn<?, ?> columnaMarca;
+
+    @FXML
+    private Tab tabDocumentos;
+
+    @FXML
+    private Button btnAgregarDocumento;
+
+    @FXML
+    private TableColumn<?, ?> columnaPrioridad;
+
+    @FXML
+    private TableColumn<?, ?> columnaTitulo;
+
+    @FXML
+    private TextField txtNombre;
+
+    @FXML
+    private SplitMenuButton btnEstado;
+
+    @FXML
+    private ComboBox<?> comBoxPrioridad;
+
+    @FXML
+    private Button btnEliminar;
+
+    @FXML
+    private TextField txtEstadoImprimir;
+
+    @FXML
+    private TableColumn<?, ?> columnaEstado;
+
+    @FXML
+    private Tab tabImpresora;
+
+    @FXML
+    private TableView<?> tableImpresoras;
+
+    @FXML
+    private TableColumn<?, ?> columnaNombre;
+
+    @FXML
+    private TextField txtMarca;
+
+    @FXML
+    private TextField txtTitulo;
+
+    @FXML
+    private Button btnAgregarImpresora;
+
+}
