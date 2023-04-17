@@ -27,8 +27,8 @@ public class CentroImpresion {
 		Impresora impresora2 = new Impresora("Impresora2", "Epson");
 		getListaImpresoras().add(impresora2);
 
-		Documento doc1 = new Documento("Centro de impresion", "doc1", 1);
-		Documento doc2 = new Documento("Centro de impresion", "doc2", 3);
+		Documento doc1 = new Documento("Hola Buenas", "doc1", 1);
+		Documento doc2 = new Documento("Tardes ", "doc2", 3);
 		getListaDocumentos().add(doc1);
 		getListaDocumentos().add(doc2);
 	}

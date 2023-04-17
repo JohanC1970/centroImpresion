@@ -92,7 +92,7 @@
                         </TableView>
                         <Button fx:id="btnEliminarDocumento" layoutX="136.0" layoutY="580.0" mnemonicParsing="false" onAction="#eliminarDocumentos" text="Eliminar documento" />
                         <TextField fx:id="txtDireccion" layoutX="283.0" layoutY="179.0" prefHeight="39.0" prefWidth="596.0" />
-                        <Button fx:id="btnMostrarMensaje" layoutX="444.0" layoutY="580.0" mnemonicParsing="false" onAction="#mostrarMensajeDocumento" text="Mostrar mensaje documento" />
+                        <Button fx:id="btnMostrarMensaje" layoutX="444.0" layoutY="580.0" mnemonicParsing="false" onAction="#mostrarMensaje" text="Mostrar mensaje documento" />
                      </children></AnchorPane>
             </content>
           </Tab>

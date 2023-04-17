@@ -10,7 +10,7 @@
 <fullyQualifiedTypeName name="javafx.scene.control.Alert"/>
 <fullyQualifiedTypeName name="centroImpresion.model.Impresora"/>
 <fullyQualifiedTypeName name="javafx.scene.control.MenuItem"/>
-<fullyQualifiedTypeName name="javafx.event.ActionEvent"/>
 <fullyQualifiedTypeName name="centroImpresion.exception.ImpresoraException"/>
 <fullyQualifiedTypeName name="javafx.scene.control.Alert.AlertType"/>
+<fullyQualifiedTypeName name="javafx.event.ActionEvent"/>
 </qualifiedTypeNameHistroy>

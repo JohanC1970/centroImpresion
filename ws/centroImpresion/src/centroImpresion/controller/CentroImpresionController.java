@@ -103,6 +103,8 @@ public class CentroImpresionController implements Initializable{
 
     private Button btnNuevaImpresora;
 
+    private Button btnMostrarMensaje;
+
 	private Aplicacion aplicacion;
 
 	private CentroImpresion centroImpresion;
@@ -188,6 +190,16 @@ public class CentroImpresionController implements Initializable{
 
     }
 
+    @FXML
+    void mostrarMensajeDocumento(ActionEvent event){
+    	if(documentoSeleccionado != null){
+    		String titulo = documentoSeleccionado.getTitulo();
+    		String texto = documentoSeleccionado.getTexto();
+    		mostrarMensaje(titulo,"Informacion txt", texto, AlertType.INFORMATION);
+    	}else{
+    		mostrarMensaje("Informacion documento","Error", "Seleccione un archivo por favor", AlertType.ERROR);
+    	}
+    }
     /**
      * Este evento me permite conectar una impresora
      * @param event
